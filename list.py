@@ -1,6 +1,6 @@
 import gi
 gi.require_version("Gtk","3.0")
-from gi.repository import Gtk, Pango
+from gi.repository import Gtk
 
 def strike(text):
     i = 0
@@ -15,8 +15,6 @@ class mainWindow (Gtk.Window):
         Gtk.Window.__init__(self, title="Simple to-do list")
         self.set_icon_from_file("images/icon.png")
         self.set_resizable(False)
-
-        font1 = Pango.FontDescription("DejaVu 20")
 
         self.headLabel = Gtk.Label(label="To-do")
 
@@ -36,14 +34,7 @@ class mainWindow (Gtk.Window):
         self.historyButton.set_label("HISTORY")
         self.historyButton.connect("clicked",self.showHistory)
 
-        self.mainListPlaceholderLabel = Gtk.Label(label="Nothing here...")
-        self.PlaceholderBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
-        self.PlaceholderBox.pack_start(self.mainListPlaceholderLabel,True,True,0)
-        self.PlaceholderListBoxRow = Gtk.ListBoxRow()
-        self.PlaceholderListBoxRow.add(self.PlaceholderBox)
-
         self.mainListBox = Gtk.ListBox()
-        self.mainListBox.set_placeholder(self.PlaceholderListBoxRow)
         self.mainListBox.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.mainListBox.show_all()
 
@@ -63,6 +54,7 @@ class mainWindow (Gtk.Window):
         thing = Thing()
         thing.number = len(self.thingList)
         thing.text = self.entry.get_text()
+        self.entry.set_text("")
         thing.make_row()
         self.mainListBox.add(thing.row)
         self.thingList.append(thing)
